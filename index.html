@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NTUST Renewable of Energy</title>
+    <link rel="stylesheet" href="/module/reset.css">
+    <link rel="stylesheet" href="style.css">
+    <!-- icon -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="./module/fontawesome.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div id="app">
+        <router-view></router-view>
+    </div>
+    <template id="home_page">
+        <div>
+            <div class="banner">
+                <div class="bleft">
+                    <router-link to="/"><i class="fas fa-home" id="icon"></i></router-link>
+                </div>
+                <div class="bmiddle">
+                    <div class="logo_img">
+                        <img src="/img/台科logo-02.png" id="ntust_logo">
+                    </div>
+                    <div class="logo_name">
+                        <label>台科大</label>
+                    </div>
+                </div>
+                <div class="bright">
+                    <i class="fas fa-address-card" id="icon" @click="pop_little_window()"></i>
+                </div>
+            </div>
+            <div id="pop_profile" style="visibility: hidden;">
+                <div class="user_icon">
+                    <router-link to="/profile_page"><i class="fas fa-user-circle"></i></router-link>
+                </div>
+                <div class="user_data">
+                    Username:<br><br>{{cname}}<br>
+                    
+                </div>
+                <div class="logout">
+                    <button id="logoutbtn" @click="logout_evt()">{{log_status}} </button>
+                </div>
+            </div>
+            <div class="four_btn">
+                <div class="station">
+                    <div class="list">
+                        <router-link to="/station_list"><button id="list_btn">案場列表</button></router-link>
+                    </div>
+                    <div class="monitor">
+                        <router-link to="/monitor"><button id="monitor_btn">案場監控</button></router-link>
+                    </div>
+                </div>
+                <div class="station">
+                    <div class="setup">
+                        <router-link to="/setup_page"><button id="setup_btn">設定</button></router-link>
+                    
+                    </div>
+                    <div class="log_out">
+                        <button id="log_out_btn">Logout</button>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </template>
+    <template id="login_page">
+        <div>
+            <div class="banner">
+                <div class="bleft">
+                    <router-link to="/"><i class="fas fa-home" id="icon"></i></router-link>
+                </div>
+                <div class="bmiddle">
+                    <div class="logo_img">
+                        <img src="/img/台科logo-02.png" id="ntust_logo">
+                    </div>
+                    <div class="logo_name">
+                        <label>台科大</label>
+                    </div>
+                </div>
+                <div class="bright">
+                    <i class="fas fa-address-card" id="icon" @click="pop_little_window()"></i>
+                </div>
+            </div>
+            <div id="pop_profile" style="visibility: hidden;">
+                <div class="user_icon">
+                    <router-link to="/profile_page"><i class="fas fa-user-circle"></i></router-link>
+                </div>
+                <div class="user_data">
+                    Username:<br><br>{{cname}}<br>
+                    
+                </div>
+                <div class="logout">
+                    <button id="logoutbtn" @click="logout_evt()">Log out</button>
+                </div>
+            </div>
+            <div class="ntust">
+                <img src="/img/台科logo-02.png" id="login_ntust">
+            </div>
+            <div class="log_body">
+                <label for="#username_input">帳號 :　</label>
+                <div class="username">
+                    <input type="text" class="login_input" id="username_input" placeholder="user@mail.com" v-model="S_Account">
+                </div>
+                <label for="#password_input">密碼 :　</label>
+                <div class="login_password">
+                    <input type="text" class="login_input" id="password_input"placeholder="Abc123" v-model="S_Password">
+                </div>
+            </div>
+            <div class="log_post">
+                <div class="login_btn_box">
+                    <button id="login_btn" @click="login_evt()">登入</button>
+                    <router-link to="/register" id="creat_link">建立帳戶</router-link>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template id="register_page">
+        <div>
+            <div class="banner">
+                <div class="bleft">
+                    <router-link to="/"><i class="fas fa-home" id="icon"></i></router-link>
+                </div>
+                <div class="bmiddle">
+                    <div class="logo_img">
+                        <img src="/img/台科logo-02.png" id="ntust_logo">
+                    </div>
+                    <div class="logo_name">
+                        <label>台科大</label>
+                    </div>
+                </div>
+                <div class="bright">
+                    <i class="fas fa-address-card" id="icon" @click="pop_little_window()"></i>
+                </div>
+            </div>
+            <div id="pop_profile" style="visibility: hidden;">
+                <div class="user_icon">
+                    <router-link to="/profile_page"><i class="fas fa-user-circle"></i></router-link>
+                </div>
+                <div class="user_data">
+                    Username:<br><br>{{cname}}<br>
+                    
+                </div>
+                <div class="logout">
+                    <button id="logoutbtn" @click="logout_evt()">Log out</button>
+                </div>
+            </div>
+            <div id="register_title">
+                <h1>建立您的帳號</h1>
+            </div>
+            <div class="name_box">
+                <input type="text" placeholder="名字" class="register_input" id="firstname" v-model="S_First_Name">
+                <input type="text" placeholder="姓氏" class="register_input" id="lastname" v-model="S_Last_Name">
+            </div>
+            
+            <div class="username_box">
+                <input type="text" id="username" placeholder="帳號"class="register_input" v-model="S_Account">
+            </div>
+            <div class="password_box">
+                <input :class='{valid:passwordValidation.valid}' id="password" :type="passwordVisible ? 'text' : 'password'" v-model="S_Password">
+                <button class="visibility" id="visibility" tabindex='-1' @click='togglePasswordVisibility' :arial-label='passwordVisible ? "Hide password" : "Show password"'>
+                    <i class="material-icons">{{ passwordVisible ? "visibility" : "visibility_off" }}</i>
+                </button>
+                <br>
+                <input :type="passwordVisible ? 'text' : 'password'" id="repassword" v-model.lazy='S_Repassword' id="repassword">
+
+                <transition name="hint" appear>
+                    <div v-if='passwordValidation.errors.length > 0 && !submitted' class='hints'>
+                        <h2>Hints</h2>
+                        <p v-for='error in passwordValidation.errors'>{{error}}</p>
+                    </div>
+                </transition>
+                
+                <div class="matches" v-if='notSamePasswords'>
+                    <p>Passwords don't match.</p>
+                </div>
+                
+            </div>
+            <div v-for="t in test">
+                {{t}}
+            </div>
+            <div class="go_on" > 
+                <button id="continue_btn" @click="continue_register()" v-if='passwordsFilled && !notSamePasswords && passwordValidation.valid'>繼續</button>
+            </div>
+        </div>
+    </template>
+    <template id="user_set_page">
+        <div>
+            <div class="banner">
+                <div class="bleft">
+                    <router-link to="/"><i class="fas fa-home" id="icon"></i></router-link>
+                </div>
+                <div class="bmiddle">
+                    <div class="logo_img">
+                        <img src="/img/台科logo-02.png" id="ntust_logo">
+                    </div>
+                    <div class="logo_name">
+                        <label>台科大</label>
+                    </div>
+                </div>
+                <div class="bright">
+                    <i class="fas fa-address-card" id="icon" @click="pop_little_window()"></i>
+                </div>
+            </div>
+            <div id="pop_profile" style="visibility: hidden;">
+                <div class="user_icon">
+                    <router-link to="/profile_page"><i class="fas fa-user-circle"></i></router-link>
+                </div>
+                <div class="user_data">
+                    Username:<br><br>{{cname}}<br>
+                    
+                </div>
+                <div class="logout">
+                    <button id="logoutbtn" @click="logout_evt()">Log out</button>
+                </div>
+            </div>
+            <div id="register_title">
+                <h1>帳戶資料</h1>
+            </div>
+            <div class="gender">
+            
+                <input type="radio" checked="checked" name="sex" value= 1 v-model="I_Sex">男
+                <input type="radio" name="sex" value= 0 v-model="I_Sex">女
+            
+            </div>
+            <div class="user_container">
+                <div class="birthbox">
+                    <input type="text" class="register_input" id="birth" v-model="D_Birthday" placeholder="生日">
+                    <div class="hint">
+                        <p><small>E.g. 2020/01/29</small></p>
+                    </div>
+                </div>
+                <div class="phonebox">
+                    <input type="text" id="phone" class="register_input" placeholder="連絡電話/手機"v-model="S_Phone">
+                </div>
+            </div>
+            <div class="username_container">
+                <input type="text" id="username" class="register_input" placeholder="使用者名稱" v-model="S_Username">
+                <div class="hint">
+                    <span id="password_hint">您可以使用英文字母、數字、半形句號</span>
+                </div>
+            </div>
+            <div class="company">
+                <input type="text" id="company_name" class="register_input" placeholder="公司名稱"v-model="S_Company_Name"><br>
+                <input type="text" id="company_address" class="register_input" placeholder="公司地址" v-model="S_Company_Address">
+            </div>
+            <div class="verify">
+                <input type="text" id="verify_code" class="register_input" placeholder="驗證碼" v-model="S_Verify_Code"><br>
+                <a id="resent" href="">重新寄送認證碼</a>
+            </div>     
+           
+            <div class="register_btn">
+                <button id="register" @click="saveDataToServer()">註冊</button>
+            </div> 
+        </div>
+    </template>
+    <template id="profile_page">
+        <div>
+            <div class="banner">
+                <div class="bleft">
+                    <router-link to="/"><i class="fas fa-home" id="icon"></i></router-link>
+                </div>
+                <div class="bmiddle">
+                    <div class="logo_img">
+                        <img src="/img/台科logo-02.png" id="ntust_logo">
+                    </div>
+                    <div class="logo_name">
+                        <label>台科大</label>
+                    </div>
+                </div>
+                <div class="bright">
+                    <i class="fas fa-address-card" id="icon" @click="pop_little_window()"></i>
+                </div>
+            </div>
+            <div id="pop_profile" style="visibility: hidden;">
+                <div class="user_icon">
+                    <router-link to="/profile_page"><i class="fas fa-user-circle profile_icon"></i></router-link>
+                </div>
+                <div class="user_data">
+                    Username:<br><br>{{cname}}<br>
+                    
+                </div>
+                <div class="logout">
+                    <button id="logoutbtn" @click="logout_evt()">Log out</button>
+                </div>
+            </div>
+            <div class="user_photo">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <div class="user_profile" v-for="users in userInfo">
+                <div class="profile_box">
+                    <label for="S_Name">姓名 : <label> {{ users.Profile_Data[0].S_First_Name}} - {{ users.Profile_Data[0].S_Last_Name}}
+                    
+                </div>
+                <div class="profile_box">
+                    <label for="S_Username">使用者名稱 : </label>{{ users.Profile_Data[0].S_Username}}
+                </div>
+                <div class="profile_box">
+                    <label for="S_Account">電子郵件 : </label>{{ users.Profile_Data[0].S_Account}}
+                </div>
+                <div class="profile_box">
+                    <label for="S_Company_Name">公司名稱 : </label>{{ users.Profile_Data[0].S_Company_Name}}
+                    
+                </div>
+                <div class="profile_box">
+                    <label for="S_Company_Address">公司地址 : </label>{{ users.Profile_Data[0].S_Company_Address}}
+                </div>
+                <div class="profile_box">
+                    <label for="D_Birthday">生日: </label>{{ users.Profile_Data[0].D_Birthday}}
+                    
+                </div>
+                <div class="profile_box">
+                    <label for="D_Birthday">性別: 男</label>
+                </div>
+                <div class="profile_box">
+                    <label for="S_Password">密碼 : </label>{{ users.Profile_Data[0].S_Password}}<i class="fas fa-pen"></i>
+                </div>
+                
+                <div class="profile_box">
+                    <label for="S_Phone">電話 : </label>{{ users.Profile_Data[0].S_Phone}}<i class="fas fa-pen"></i>
+                </div>
+                <button id="save_profile">Save</button>
+            </div>
+        </div>
+    </template>
+    <template id="monitor_page">
+        <div>
+            <div class="banner">
+                <div class="bleft">
+                    <router-link to="/"><i class="fas fa-home" id="icon"></i></router-link>
+                </div>
+                <div class="bmiddle">
+                    <div class="logo_img">
+                        <img src="/img/台科logo-02.png" id="ntust_logo">
+                    </div>
+                    <div class="logo_name">
+                        <label>台科大</label>
+                    </div>
+                </div>
+                <div class="bright">
+                    <i class="fas fa-address-card" id="icon" @click="pop_little_window()"></i>
+                </div>
+            </div>
+            <div id="pop_profile" style="visibility: hidden;">
+                <div class="user_icon">
+                    <router-link to="/profile_page"><i class="fas fa-user-circle"></i></router-link>
+                </div>
+                <div class="user_data">
+                    Username:<br><br>{{cname}}<br>
+                    
+                </div>
+                <div class="logout">
+                    <button id="logoutbtn" @click="logout_evt()">Log out</button>
+                </div>
+            </div>
+            <div class="choose_flex">
+                <div class="select_choose">
+                    <select id="station" class="select_option" v-model="input.S_Station_Name">
+                        <option :value="null">切換案場</option>
+                        <option v-for="item in typeList.sort">{{item}}</option>
+                    </select><br>
+                      
+                    <br>
+                    <div class="top important">
+                        <button class="im_btn"@click="content='abnormal'">異常</button>
+                        <button class="im_btn" @click="content='real_time'">即時</button>
+                    </div>
+                </div>
+                <div class="single_fan_data">
+                    <select id="windmachine"  class="select_option" v-model="input.S_Station_Id">
+                        <option :value="null">選擇風機</option>
+                        <option v-for="item in titleList.sort">{{item}}</option>
+                        <!-- <option v-for="detail in station_details[stationID]">{{detail}} </option> -->
+                    </select>
+                    
+                    <br>
+                    <div class="top history">
+                        <button class="his_btn" @click="content='historical'">歷史數據</button>
+                    </div>
+                </div>
+            </div>
+            <div class="report_flex">
+                <div class="select_label" v-if="content">
+                    <label class="select_detail">風機: {{ content.S_Station_Name }}</label>
+                    <br><br>
+                    <label class="select_detail">案場:</label>
+                    
+                </div>
+                <div class="report">
+                    <button id="report_btn" @click="content='report_table'">報表</button><br><br>
+                    <button id="excel_btn" @click="xls_event()">匯出(.csv) <i class="fas fa-file-export"></i></button>
+                </div>
+            </div>
+        
+            <div class="table_container">
+                <keep-alive>
+                    <component :is="content"></component>
+                </keep-alive>
+                  
+            </div>
+        </div>
+    
+   </template>
+   <template id="station_list">
+        <div>
+            <div class="banner">
+                <div class="bleft">
+                    <router-link to="/"><i class="fas fa-home" id="icon"></i></router-link>
+                </div>
+                <div class="bmiddle">
+                    <div class="logo_img">
+                        <img src="/img/台科logo-02.png" id="ntust_logo">
+                    </div>
+                    <div class="logo_name">
+                        <label>台科大</label>
+                    </div>
+                </div>
+                <div class="bright">
+                    <i class="fas fa-address-card" id="icon" @click="pop_little_window()"></i>
+                </div>
+            </div>
+            <div id="pop_profile" style="visibility: hidden;">
+                <div class="user_icon">
+                    <router-link to="/profile_page"><i class="fas fa-user-circle"></i></router-link>
+                </div>
+                <div class="user_data">
+                    Username:<br><br>{{cname}}<br>
+                    
+                </div>
+                <div class="logout">
+                    <button id="logoutbtn" @click="logout_evt()">Log out</button>
+                </div>
+            </div>
+            <div class="test"  style="color:#fbfbfb">
+                <div id="station_title">
+                    <h1>案場概況</h1>
+                </div>
+                <div id="station_list_data">
+                    <div class="station_btn_sel">
+                        <button id="station_data"class="station_btn" @click="station_content='station_data'">案場資訊 <i class="fas fa-arrow-circle-right"></i></button>
+                        <button id="machine_apply"class="station_btn" @click="station_content='machine_apply'">風機設備申請 <i class="fas fa-arrow-circle-right"></i></button>
+                        <router-link to="/station_apply_page"><button id="machine_detail"class="station_btn">新增案場 <i class="fas fa-arrow-circle-right"></i></button></router-link>
+                    </div>
+                </div>
+                <div class="station_content_container">
+                    <keep-alive>
+                        <component :is="station_content"></component>
+                    </keep-alive>
+                </div>
+                
+            </div>
+        </div>
+   </template>
+   <template id="station_apply_page">
+       <div>
+        <div class="banner">
+            <div class="bleft">
+                <router-link to="/"><i class="fas fa-home" id="icon"></i></router-link>
+            </div>
+            <div class="bmiddle">
+                <div class="logo_img">
+                    <img src="/img/台科logo-02.png" id="ntust_logo">
+                </div>
+                <div class="logo_name">
+                    <label>台科大</label>
+                </div>
+            </div>
+            <div class="bright">
+                <i class="fas fa-address-card" id="icon" @click="pop_little_window()"></i>
+            </div>
+        </div>
+        <div id="register_title">
+            <h1>新增案場</h1>
+        </div>
+        <div class="station_info">
+            <div class="info_title">
+                <label>風機案場場地申請</label>
+            </div>
+            <div class="info_content">
+                <div id="info_subcontain">
+                    <div class="subtitle">
+                        <label>地理資訊</label>
+                        <div class="caseInfo">
+                            <label>案場名稱:</label>
+                            <div class="case_name">
+                                <input type="text" class="station_input" placeholder="看海公園">
+                            </div>
+                            <label>地址:</label>
+                            <div class="case_name">
+                                <input type="text" class="station_input" placeholder="新竹市xxxxxxxx">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="info_subcontain">
+                    <div class="subtitle">
+                        <label>風機模組規格</label>
+                        <div class="caseInfo">
+                            <label>架構設計:</label>
+                            <div class="case_name">
+                                <input type="text" class="station_input" placeholder="地面型支撐架">
+                            </div>
+                            <label>模組規格:</label>
+                            <div class="case_name">
+                            <input type="text" class="station_input" placeholder="同昱GTEC-305G6S6A">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="info_subcontain">
+                    <div class="subtitle">
+                        <label>案場資訊</label>
+                        <div class="caseInfo">
+                            <label>建置時間:</label>
+                            <div class="case_name">
+                            <input type="date" class="station_input" placeholder="2018-12-10">
+                            </div>
+                            <label>裝置數量:</label>
+                            <div class="case_name">
+                                <input type="number" class="inverter_count" min="0" placeholder="68">台
+                                <button id="station_apply_btn">申請</button>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+       </div>
+   </template>
+   <template id="setup_page">
+       <div>
+        <div class="banner">
+            <div class="bleft">
+                <router-link to="/"><i class="fas fa-home" id="icon"></i></router-link>
+            </div>
+            <div class="bmiddle">
+                <div class="logo_img">
+                    <img src="/img/台科logo-02.png" id="ntust_logo">
+                </div>
+                <div class="logo_name">
+                    <label>台科大</label>
+                </div>
+            </div>
+            <div class="bright">
+                <i class="fas fa-address-card" id="icon" @click="pop_little_window()"></i>
+            </div>
+        </div>
+        <div id="pop_profile" style="visibility: hidden;">
+            <div class="user_icon">
+                <router-link to="/profile_page"><i class="fas fa-user-circle"></i></router-link>
+            </div>
+            <div class="user_data">
+                Username:<br><br>{{cname}}<br>
+                
+            </div>
+            <div class="logout">
+                <button id="logoutbtn" @click="logout_evt()">Log out</button>
+            </div>
+        </div>
+        <input v-model='newtodo' v-on:keyup.enter='addTodo()' type="text" placeholder='Add New Todo Item' autofocus>
+        <br>
+        <button v-on:click='addTodo()'>Add</button>
+        <button v-on:click='reverseList()'>Reverse</button>
+        <button v-on:click='clearList'>Clear List</button>
+        <label id="all" for="all"><input class='squaredTwo' type="checkbox" name="all" v-bind:checked="areAllSelected" v-on:click="selectAll">Check All</label>
+        <div class="table_container_setting">
+            <ul v-if='todos.length'>
+            <li v-for='todo in todos'>
+                <input class='squaredTwo' v-model='todo.done' type="checkbox">
+            <label class='item'  contenteditable='true' v-on:keyup.enter='editTodo(todo)'>{{ todo.task }}</label>
+            <button class='cross'  v-on:click='removeTodo(todo)'> ⤫</button>
+            </li>
+        </ul>    
+        </div>
+        
+            <!-- <div class="setting">
+                <div class="set_title">燈號規則更改</div>
+                <div class="set_body">
+                    <label>所選規格名稱 : </label>
+                     <div class="upper_input">
+                         <label for="yellow_upper">黃燈上限 <input type="number" id="yellow_upper" class="set_input" placeholder="151.0"></label>
+                         <label for="red_upper">紅燈上限 <input type="number" id="red_upper" class="set_input" placeholder="200.0" min="0"></label>
+                     </div>
+                     <div class="lower_input">
+                         <label for="yellow_lower">黃燈下限 <input type="number" id="yellow_lower" class="set_input" placeholder="5.0"></label>
+                         <label for="red_lower">紅燈下限 <input type="number" id="red_lower" class="set_input" placeholder="2.0"></label>
+                     </div>
+                     <div class="save_btn">
+                         <button id="save_setting">Save</button>
+                     </div>
+                </div>
+            </div> -->
+            <!-- <div class="select_set_machine">
+                <div class="input_set">
+                    <input type="text" placeholder="Add item" id="add_item"class="bg-gray-200 focus:bg-white border-black border-solid border-2 px-2 py-1 w-full mb-4 hover:bg-white"@keyup.enter="addItem">
+                </div>
+                <div class="select_set">
+                    <select id="station_setting" class="select_option">
+                        <option disabled>切換案場</option>
+                        <option value="桃園音樂廳">桃園音樂廳</option>
+                    </select>
+                    <select id="windmachine_setting"  class="select_option">
+                        <option disabled>選擇風機</option>
+                        <option value="RS485-ID">RS485-ID</option>
+                    </select>
+                </div>
+                
+            </div>
+            <div class="table_container_setting">
+                
+            </div> -->
+       </div>
+   </template>
+    <!-- jquery -->
+    <script src="./module/jquery-3.5.1.min.js"></script>
+    <script src="./module/jquery.table2excel.js"></script>
+    <!-- vue -->
+    <script src="./module/vue.min.js"></script>
+    <script src="./module/axios.min.js"></script>
+    <!-- router2 寫法跟router1不同 -->
+    <script src="./module/vue-router.js"></script>
+    <!-- birth_format -->
+    <script src="./module/moment.min.js"></script>
+
+    <script src="./script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js" integrity="sha512-Meww2sXqNHxI1+5Dyh/9KAtvI9RZSA4c1K2k5iL02oiPO/RH3Q30L3M1albtqMg50u4gRTYdV4EXOQqXEI336A==" crossorigin="anonymous"></script>
+</body>
+</html>
